@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.http import Http404
 
 posts = [
     {
@@ -43,7 +42,6 @@ posts = [
                 укутывал их, чтобы не испортились от дождя.''',
     },
 ]
-
 
 
 def index(request):
