@@ -1,5 +1,5 @@
-from django.shortcuts import render # type: ignore
-from django.http import Http404, HttpResponseNotFound # type: ignore
+from django.shortcuts import render  # type: ignore
+from django.http import Http404, HttpResponseNotFound  # type: ignore
 
 posts = [
     {
@@ -45,6 +45,7 @@ posts = [
 ]
 
 DICT_POSTS = {post['id']: post for post in posts}
+
 
 def index(request):
     return render(request, 'blog/index.html', {'post_list': reversed(posts)})
