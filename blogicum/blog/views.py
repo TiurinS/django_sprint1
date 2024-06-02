@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render # type: ignore
+from django.http import Http404, HttpResponseNotFound # type: ignore
 
 posts = [
     {
@@ -43,20 +44,23 @@ posts = [
     },
 ]
 
+DICT_POSTS = {post['id']: post for post in posts}
 
 def index(request):
-    template = 'blog/index.html'
-    context = {'post_list': reversed(posts)}
-    return render(request, template, context)
+    return render(request, 'blog/index.html', {'post_list': reversed(posts)})
 
 
 def post_detail(request, id):
-    template = 'blog/detail.html'
-    context = {'post': posts[id]}
-    return render(request, template, context)
+    try:
+        DICT_POSTS[id]
+    except KeyError:
+        raise Http404
+    return render(request, 'blog/detail.html', {'post': DICT_POSTS[id]})
 
 
 def category_posts(request, category_slug):
-    template = 'blog/category.html'
-    context = {'category': category_slug}
-    return render(request, template, context)
+    return render(request, 'blog/category.html', {'category': category_slug})
+
+
+def custom_page_not_found(request, exception):
+    return HttpResponseNotFound("<h1>Sorry, Page not found!!!</h1>")
